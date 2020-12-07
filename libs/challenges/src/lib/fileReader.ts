@@ -13,7 +13,7 @@ export const readFileWithLineAction = async (inputFile:string, lineAction: (line
             const actionRes = lineAction(line);  
             switch (actionRes) {
                 case 'Resolve':
-                    resolve(); 
+                    resolve();  
             }
         })
         .on('error', function(err){

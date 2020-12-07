@@ -1,6 +1,5 @@
-import { LineActionResult, readFileLength, readFileWithLineAction } from '../../lib/fileReader';
-
-export const getByteValueArray = (size:number) : number[] => {
+import { LineActionResult, readFileLength, readFileWithLineAction } from '../../lib/fileReader'; 
+export const getBitArray = (size:number, bit:number) : number[] => {
     
     let arr = [];
     let i = 1;
@@ -14,8 +13,8 @@ export const getByteValueArray = (size:number) : number[] => {
 
 export const getSeatId = (line: string, seatRows: number, seatColumns: number) : number => {
     
-    const rows = getByteValueArray(seatRows); 
-    const letters = getByteValueArray(seatColumns);
+    const rows = getBitArray(seatRows,1); 
+    const letters = getBitArray(seatColumns,1);
     
     for(var i = 0; i<7; i++) {
         if (line[i] === 'F') {
