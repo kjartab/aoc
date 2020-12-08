@@ -50,7 +50,7 @@ describe('groupCountAnyYes', () =>{
           bags : {  
           }
         }
-      } 
+      }
 
       const totalCapacity = collectCapacityForBag("test", bagCollection); 
       strictEqual(totalCapacity["test3"].count, 3);

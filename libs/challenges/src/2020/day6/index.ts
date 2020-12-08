@@ -1,21 +1,6 @@
 import { group } from 'console';
 import { LineActionResult, readFileWithLineAction } from '../../lib/fileReader';
 
-
-export const az = "abcdefghijklmnopqrstuvwxyz"
-
-
-export const groupCountEveryoneYes = (forms: string[], letters: string[]): number=> {
-    const letterBuckets = getLetterObject(letters); 
-    forms.forEach(form => {
-        form.split('').forEach(letter => {
-            letterBuckets[letter] ++;
-        })
-    })
-    return Object.keys(letterBuckets)
-    .reduce((prev, cur) => { return prev + (letterBuckets[cur] ? 1 : 0)}, 0);
-} 
-
 export type CountMode = 'Anyone' | 'Everyone'
 
 export const groupCountYes = (forms: string[], letters: string[], mode:CountMode = 'Anyone'): number=> {
@@ -52,7 +37,6 @@ export const getLetterObject = (array:string[]) => {
 };
 
 export const alphabet = () => [...Array(26).keys()].map(i => String.fromCharCode(i + 97));
-
 
 export const getUniqueYesGroupCount = async (inputFile: string, mode: CountMode) : Promise<number> =>  {
     const letters = alphabet();

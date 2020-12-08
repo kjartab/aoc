@@ -1,16 +1,16 @@
 import { LineActionResult, readFileWithLineAction } from '../../lib/fileReader';
 
-export interface BagCapacity { 
+export type BagCapacity = { 
     [key: string]: { 
         count: number
     }
 } 
  
-export interface BagCollection {
+export type BagCollection = {
     [key: string]: Bag
 }
 
-export interface Bag { 
+export type Bag = { 
     bagType: string
     bags: BagCapacity
 }
@@ -39,8 +39,8 @@ export function collectCapacityForBag(bagType: string, bagCollection: BagCollect
                 count : multiply
             }
         }
-    } 
-     
+    }
+    
     for (var containedBagKey in targetBag.bags) {  
         const containedMultiply = targetBag.bags[containedBagKey].count; 
         if (bagCollection[containedBagKey]) {
@@ -78,25 +78,17 @@ export const getTotalBagCapacities = (bagCollection: BagCollection) : BagCollect
 } 
 
 export const getNumberThatCanContainAtLeastOne = async (inputFile: string, bagType: string) : Promise<number> => {
-    let sum = 0; 
-    const bagCollection = await getTotalBagCapacitiesForFile(inputFile);
-    for(var bagKey of Object.keys(bagCollection)) {
-        const bag = bagCollection[bagKey]; 
-        if (Object.keys(bag.bags).indexOf(bagType) !== -1) {
-            sum++;
-        } 
-    }
-    return sum
-}
-
-export const getNumberOfBagsForBagType = async (inputFile: string, bagType: string) : Promise<number> => {
-    let sum = 0; 
+    
     const bagCollection = await getTotalBagCapacitiesForFile(inputFile);
     
-    for (var key in bagCollection[bagType].bags) {
-        sum += bagCollection[bagType].bags[key].count
-    } 
-    return sum
+    return Object.values(bagCollection).reduce((sum, bag) => bag.bags[bagType] ? sum + 1 : sum, 0);  
+}
+
+export const getNumberOfBagsForBagType = async (inputFile: string, bagType: string) : Promise<number> => { 
+
+    const bagCollection = await getTotalBagCapacitiesForFile(inputFile); 
+    
+    return Object.values(bagCollection[bagType].bags).reduce((sum, cur) => cur.count + sum , 0);
 }
 
 
@@ -109,9 +101,8 @@ export const getTotalBagCapacitiesForFile = async (inputFile: string) : Promise<
         
         let bag = parseBagLine(line);
         bags[bag.bagType] = bag;  
-
         return 'Continue';
-    } 
+    }
 
     await readFileWithLineAction(inputFile, lineAction);  
     const totalBagCapacity = getTotalBagCapacities(bags);
