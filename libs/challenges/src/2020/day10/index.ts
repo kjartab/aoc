@@ -31,39 +31,37 @@ export const getValidOptions = (list: number[], start:number) : number[] => {
     return list.filter(n => n > start && n <= start + 3);
 }
 
-let t = {}
-export const getDistributions2 = (input: string[]) : DiffDistribution => {
+export const getDistributions2 = (input: string[]) : number => {
     
     const distribution : DiffDistribution = {}
     const numbers = getArray(input);   
     const max = numbers[numbers.length-1];
-    const combinations = computeCombinations(numbers, t, max);  
-    // console.log(JSON.stringify(combinations));
-    console.log("counter", max, c);
-    return distribution; 
-} 
+    let combinations = {} 
+    computeCombinations(numbers, combinations, max);
+    return combinations[0]; 
+}  
 
-let c = 0;
+export const computeCombinations = (numbers:number[], combinations: any, max:number) : any => {
+    
+    let current = numbers[0];  
+    if (current === max || combinations[current]) {  
+        combinations[current] = 1;  
+        return combinations[current];
 
-export const computeCombinations = (numbers:number[], obj: any, max:number) : any => {
-     
-    let current = numbers[0]; 
-    if (numbers.length == 0) { 
-        return obj;
     }
-    if (current === max) { 
-        c++;
-    }
+    
+    combinations[current] = 0;
 
-    numbers = numbers.slice(1)  
-
-    obj[current] = {}
-
-    const options = getValidOptions(numbers, current);   
-    options.forEach((opt, i) => {   
-        computeCombinations(numbers.slice(i), obj[current], max); 
+    const options = getValidOptions(numbers, current);      
+    options.forEach((opt, i) => {      
+        if (combinations[opt]) {  
+            combinations[current] += combinations[opt];   
+        } else { 
+            let startIndex = numbers.indexOf(opt);   
+            combinations[current] = combinations[current] + computeCombinations(numbers.slice(startIndex), combinations, max);
+        }
     });  
-    return obj;
+    return combinations[current];
      
 }
 
@@ -79,11 +77,9 @@ export const task1 = async (inputFile: string) : Promise<number> =>  {
 
 export const task2 = async (inputFile: string) : Promise<number> =>  { 
  
-    let lines = await readFile(inputFile);
-    c = 0;
-    const dist = getDistributions2(lines);
-    
-    return c;
+    let lines = await readFile(inputFile); 
+
+    return getDistributions2(lines); 
 
 } 
 

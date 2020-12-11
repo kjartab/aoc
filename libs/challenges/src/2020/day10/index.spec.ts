@@ -39,15 +39,15 @@ describe('Tasks', () =>{
     strictEqual(res, 8);
   }); 
 
-  // it('is correct for task2 - test.txt', async () => {    
-  //   const res = await task2(`${relativePath}/test.txt`);
-  //   strictEqual(res, 19208);
-  // }); 
+  it('is correct for task2 - test.txt', async () => {    
+    const res = await task2(`${relativePath}/test.txt`);
+    strictEqual(res, 19208);
+  }); 
 
-  // it('is correct for task2 - challenge.txt', async () => {    
-  //   const res = await task2(`${relativePath}/challenge.txt`);
-  //   strictEqual(res, 8);
-  // }); 
+  it('is correct for task2 - challenge.txt', async () => {    
+    const res = await task2(`${relativePath}/challenge.txt`);
+    strictEqual(res, 396857386627072);
+  }); 
 
 }); 
  
