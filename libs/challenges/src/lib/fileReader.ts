@@ -12,8 +12,8 @@ export const readFileWithLineAction = async (inputFile:string, lineAction: (line
         .pipe(es.mapSync((line:string) => {     
             const actionRes = lineAction(line);  
             switch (actionRes) {
-                case 'Resolve':
-                    resolve();  
+                case 'Resolve':  
+                    return resolve();  
             }
         })
         .on('error', function(err){
@@ -26,7 +26,7 @@ export const readFileWithLineAction = async (inputFile:string, lineAction: (line
     })
 } 
 
-export const readFile = async (inputFile:string, lineAction: (line:string) => LineActionResult) : Promise<string[]> =>  {
+export const readFile = async (inputFile:string) : Promise<string[]> =>  {
  
     
     return new Promise((resolve, reject) => {
